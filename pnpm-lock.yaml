@@ -6,7 +6,6 @@ specifiers:
   '@nestjs/core': ^9.0.0
   '@nestjs/platform-express': ^9.0.0
   '@nestjs/platform-socket.io': ^9.3.2
-  '@nestjs/platform-ws': ^9.3.2
   '@nestjs/schematics': ^9.0.0
   '@nestjs/testing': ^9.0.0
   '@nestjs/websockets': ^9.3.2
@@ -14,7 +13,6 @@ specifiers:
   '@types/jest': 29.2.4
   '@types/node': 18.11.18
   '@types/supertest': ^2.0.11
-  '@types/ws': ^8.5.4
   '@typescript-eslint/eslint-plugin': ^5.0.0
   '@typescript-eslint/parser': ^5.0.0
   eslint: ^8.0.1
@@ -32,19 +30,18 @@ specifiers:
   ts-node: ^10.0.0
   tsconfig-paths: 4.1.1
   typescript: ^4.7.4
-  ws: ^8.12.0
+  zod: ^3.20.5
 
 dependencies:
   '@nestjs/common': 9.3.2_mnr6j2del53muneqly5h4y27ai
   '@nestjs/core': 9.3.2_wpqshmax5ptsqpyl37jgvcaow4
   '@nestjs/platform-express': 9.3.2_fnnujyxcjtinmcbby3pisnawpe
   '@nestjs/platform-socket.io': 9.3.2_flzoav32wrhvfodqhuwpf4odea
-  '@nestjs/platform-ws': 9.3.2_flzoav32wrhvfodqhuwpf4odea
   '@nestjs/websockets': 9.3.2_ehq7mdzfh6ocnvfa4viazclqa4
   reflect-metadata: 0.1.13
   rxjs: 7.8.0
   socket.io: 4.5.4
-  ws: 8.12.0
+  zod: 3.20.5
 
 devDependencies:
   '@nestjs/cli': 9.2.0
@@ -54,7 +51,6 @@ devDependencies:
   '@types/jest': 29.2.4
   '@types/node': 18.11.18
   '@types/supertest': 2.0.12
-  '@types/ws': 8.5.4
   '@typescript-eslint/eslint-plugin': 5.50.0_go4drrxstycfikanvu45pi4vgq
   '@typescript-eslint/parser': 5.50.0_4vsywjlpuriuw3tl5oq6zy5a64
   eslint: 8.33.0
@@ -975,23 +971,6 @@ packages:
       - supports-color
       - utf-8-validate
 
-  /@nestjs/platform-ws/9.3.2_flzoav32wrhvfodqhuwpf4odea:
-    resolution: {integrity: sha512-rbuQk+r6vMU40CF1x0Hex/zzmXD6KvjIms+0fJvL4hR39XEexIfgBWnd0RUnyJf0fKUntwRpuILyxVHKwIrsyg==}
-    peerDependencies:
-      '@nestjs/common': ^9.0.0
-      '@nestjs/websockets': ^9.0.0
-      rxjs: ^7.1.0
-    dependencies:
-      '@nestjs/common': 9.3.2_mnr6j2del53muneqly5h4y27ai
-      '@nestjs/websockets': 9.3.2_ehq7mdzfh6ocnvfa4viazclqa4
-      rxjs: 7.8.0
-      tslib: 2.5.0
-      ws: 8.12.0
-    transitivePeerDependencies:
-      - bufferutil
-      - utf-8-validate
-    dev: false
-
   /@nestjs/schematics/9.0.4_n7i3t5jmyrdrkypb5pvfihcmg4:
     resolution: {integrity: sha512-egurCfAc4e5i1r2TmeAF0UrOKejFmT5oTdv4b7HcOVPupc3QGU7CbEfGleL3mkM5AjrixTQeMxU9bJ00ttAbGg==}
     peerDependencies:
@@ -1300,12 +1279,6 @@ packages:
     resolution: {integrity: sha512-X3HPWTwXRerBZS7Mo1k6vMVR1Z6zmJcDVn5O/31whe0tnjE4te6ZJSJGq1RiqHPjzPdMTfjCFogDJmwng9xHaQ==}
     dependencies:
       '@types/superagent': 4.1.16
-    dev: true
-
-  /@types/ws/8.5.4:
-    resolution: {integrity: sha512-zdQDHKUgcX/zBc4GrwsE/7dVdAD8JR4EuiAXiiUhhfyIJXXb2+PrGshFyeXWQPMmmZ2XxgaqclgpIC7eTXc1mg==}
-    dependencies:
-      '@types/node': 18.11.18
     dev: true
 
   /@types/yargs-parser/21.0.0:
@@ -5024,19 +4997,6 @@ packages:
       signal-exit: 3.0.7
     dev: true
 
-  /ws/8.12.0:
-    resolution: {integrity: sha512-kU62emKIdKVeEIOIKVegvqpXMSTAMLJozpHZaJNDYqBjzlSYXQGviYwN1osDLJ9av68qHd4a2oSjd7yD4pacig==}
-    engines: {node: '>=10.0.0'}
-    peerDependencies:
-      bufferutil: ^4.0.1
-      utf-8-validate: '>=5.0.2'
-    peerDependenciesMeta:
-      bufferutil:
-        optional: true
-      utf-8-validate:
-        optional: true
-    dev: false
-
   /ws/8.2.3:
     resolution: {integrity: sha512-wBuoj1BDpC6ZQ1B7DWQBYVLphPWkm8i9Y0/3YdHjHKHiohOJ1ws+3OccDWtH+PoC9DZD5WOTrJvNbWvjS6JWaA==}
     engines: {node: '>=10.0.0'}
@@ -5098,3 +5058,7 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zod/3.20.5:
+    resolution: {integrity: sha512-BTAAliwfoB9dWf2hC+TXlyWKk/YTqRGZjHQR0WLC2A2pzierWo7KuQ1ebjS4SNaFaxg/lDItzl9/QTgLjcHbgw==}
+    dev: false

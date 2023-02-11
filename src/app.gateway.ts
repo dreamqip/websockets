@@ -29,6 +29,7 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   constructor(private appService: AppService) {}
 
+  // guard against invalid connection
   handleConnection(client: Socket): void {
     this.logger.log('client connected');
     const sequenceNumber = this.appService.getSequenceNumber();

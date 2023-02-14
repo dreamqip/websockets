@@ -1,9 +1,9 @@
-export const BATCH_SIZE = 150;
+export const SENSOR_READINGS_CHUNK_SIZE = 375;
 
-export const SENSORS_IDS = {
-  Accelerometer: 0,
-  Gyroscope: 1,
-  Magnetometer: 2,
+export const SENSORS = {
+  0: 'Accelerometer',
+  1: 'Gyroscope',
+  2: 'Magnetometer',
 } as const;
 
 export enum SOCKET_EVENTS {

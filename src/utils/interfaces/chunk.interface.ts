@@ -1,8 +1,8 @@
 import { z } from 'zod';
-import { BatchSchema } from '@/shared/schemas/batch.schema';
+import { ChunkSchema } from '@/utils/schemas/chunkSchema';
 import { SOCKET_EVENTS } from '@/utils/constants';
 
-export type Batch = z.infer<typeof BatchSchema>;
+export type Chunk = z.infer<typeof ChunkSchema>;
 
 export interface BatchResponse {
   event: SOCKET_EVENTS.BATCH_ACCEPTED | SOCKET_EVENTS.BATCH_REJECTED;
@@ -17,5 +17,5 @@ export interface ServerToClientEvents {
 }
 
 export interface ClientToServerEvents {
-  send_batch: (e: Batch) => void;
+  send_batch: (e: Chunk) => void;
 }

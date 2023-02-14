@@ -1,19 +1,55 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider          = "postgresql"
   url               = env("DATABASE_URL")
   shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Sensor {
+  Accelerometer
+  Gyroscope
+  Magnetometer
+}
+
+// Can have 1 session
+// Will be hypertable
+model SensorReading {
+  id         Int      @default(autoincrement())
+  session    Session  @relation(fields: [sessionId], references: [id])
+  sessionId  Int
+  // To-do Should be camelcase
+  created_at DateTime
+  sensor     Sensor
+  xAxis      Float
+  yAxis      Float
+  zAxis      Float
+
+  @@unique([id, created_at])
+}
+
+// Can have 1 user
+// Can have many sensor readings
+model Session {
+  id             Int             @id @default(autoincrement())
+  user           User            @relation(fields: [userId], references: [id])
+  userId         Int
+  createdAt      DateTime        @default(now())
+  destroyedAt    DateTime?
+  sensorReadings SensorReading[]
+}
+
+// Can have many sessions
 model User {
-  id        Int    @id @default(autoincrement())
-  fullName  String
-  publicKey String @unique
-  email     String @unique
+  id        Int       @id @default(autoincrement())
+  publicKey String    @unique
+  email     String    @unique
+  firstName String
+  lastName  String
+  sessions  Session[]
 }

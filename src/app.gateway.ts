@@ -9,7 +9,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { Logger, UsePipes } from '@nestjs/common';
 import { AppService } from './app.service';
-import { BatchValidationPipe } from './pipes/batch-validation.pipe';
+import { ChunkValidationPipe } from './pipes/chunk-validation.pipe';
 import {
   BatchResponse,
   Chunk,
@@ -23,6 +23,8 @@ import { SessionService } from '@/session/session.service';
 @WebSocketGateway(8080)
 export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
   private readonly logger = new Logger(AppGateway.name);
+
+  private sessionId: number;
 
   @WebSocketServer()
   server: Server = new Server<ServerToClientEvents, ClientToServerEvents>();
@@ -39,6 +41,11 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // socket.io client handshake object contains the public key (not implemented yet)
     // client.handshake.auth.publicKey;
     // await this.sessionService.createSessionById(1);
+    const session = await this.sessionService.createSession(1);
+
+    console.log('session created');
+
+    this.sessionId = session.id;
     const sequenceNumber = this.appService.getSequenceNumber();
     client.emit('connection', {
       timestamp: Date.now(),
@@ -46,7 +53,7 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
     });
   }
 
-  @UsePipes(new BatchValidationPipe(ChunkSchema))
+  @UsePipes(new ChunkValidationPipe(ChunkSchema))
   @SubscribeMessage('send_batch')
   async handleEvent(@MessageBody() data: Chunk): Promise<void> {
     this.logger.log('batch received');
@@ -73,15 +80,18 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
       server_timestamp: Date.now(),
       server_sequence_number: sequenceNumber,
     };
-    // write to database
-    await this.appService.writeChunkToDatabase(data);
     // }
 
     this.server.emit('batch_response', response);
   }
 
-  handleDisconnect(client: Socket): void {
+  async handleDisconnect(client: Socket): Promise<void> {
     this.logger.log('client disconnected');
+
+    await this.sessionService.destroySessionById(this.sessionId);
+
+    console.log('session destroyed');
+
     const sequenceNumber = this.appService.getSequenceNumber();
     client.emit('disconnection', {
       timestamp: Date.now(),

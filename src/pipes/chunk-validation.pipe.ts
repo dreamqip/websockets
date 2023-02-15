@@ -2,7 +2,7 @@ import { Injectable, PipeTransform } from '@nestjs/common';
 import { Schema } from 'zod';
 
 @Injectable()
-export class BatchValidationPipe implements PipeTransform {
+export class ChunkValidationPipe implements PipeTransform {
   constructor(private schema: Schema) {}
 
   transform(value: any) {

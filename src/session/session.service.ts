@@ -1,15 +1,17 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'nestjs-prisma';
 import { type Session } from '@prisma/client';
+import { Chunk } from '@/utils/interfaces/chunk.interface';
+import { SENSORS } from '@/utils/constants';
 
 @Injectable()
 export class SessionService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async createSessionById(id: number) {
+  async createSession(userId: number): Promise<Session> {
     await this.prisma.session.findFirstOrThrow({
       where: {
-        id,
+        userId,
         destroyedAt: null,
       },
     });
@@ -19,7 +21,7 @@ export class SessionService {
         user: {
           connect: {
             // NOTE: Not sure if this is the correct way to do this
-            id,
+            id: userId,
           },
         },
       },
@@ -52,6 +54,21 @@ export class SessionService {
       data: {
         destroyedAt: new Date(),
       },
+    });
+  }
+
+  async writeChunkToDatabase(chunk: Chunk) {
+    await this.prisma.sensorReading.createMany({
+      data: [
+        ...chunk.sensor_readings.map((reading) => ({
+          sessionId: 1,
+          created_at: new Date(reading[0]),
+          sensor: Object.values(SENSORS)[reading[1]],
+          xAxis: reading[2],
+          yAxis: reading[3],
+          zAxis: reading[4],
+        })),
+      ],
     });
   }
 }
